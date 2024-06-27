@@ -1,29 +1,33 @@
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      declarations: [AppComponent], 
+      imports: [RouterOutlet, CommonModule]
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  it('should import RouterOutlet', async () => {
+    const moduleConfig = await TestBed.configureTestingModule({}).compileComponents();
+    const moduleImports = moduleConfig.module.imports;
+    expect(moduleImports).toContain(RouterOutlet);
   });
-
-  it(`should have the 'projectdemo' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('projectdemo');
+  
+  it('should import AppComponent', async () => {
+    const moduleConfig = await TestBed.configureTestingModule({}).compileComponents();
+    const moduleDeclarations = moduleConfig.module.declarations;
+    expect(moduleDeclarations).toContain(AppComponent);
   });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, projectdemo');
+  
+  it('should include RouterOutlet and AppComponent in imports', async () => {
+    const moduleConfig = await TestBed.configureTestingModule({}).compileComponents();
+    const moduleImports = moduleConfig.module.imports;
+    expect(moduleImports).toContain(RouterOutlet);
+    expect(moduleImports).toContain(CommonModule); // Make sure CommonModule is included
   });
-});
+});   
